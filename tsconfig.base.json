@@ -19,6 +19,7 @@
         "libs/shared/interceptors/src/index.ts"
       ],
       ".prisma/catalog-client": ["node_modules/.prisma/catalog-client"],
+      ".prisma/identity-client": ["node_modules/.prisma/identity-client"],
       "@fashion-store/shared-dto": ["libs/shared/dto/src/index.ts"],
       "@fashion-store/shared-decorators": [
         "libs/shared/decorators/src/index.ts"

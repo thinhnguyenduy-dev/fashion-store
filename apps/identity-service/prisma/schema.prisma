@@ -1,0 +1,58 @@
+// Prisma Schema for Identity Service
+// Fashion Store E-commerce Platform
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/.prisma/identity-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("IDENTITY_DATABASE_URL")
+}
+
+// ============================================
+// User Model
+// ============================================
+model User {
+  id            String   @id @default(uuid())
+  keycloakId    String   @unique
+  email         String   @unique
+  firstName     String?
+  lastName      String?
+  phone         String?
+  avatarUrl     String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  addresses     Address[]
+
+  @@index([email])
+  @@index([keycloakId])
+}
+
+// ============================================
+// Address Model
+// ============================================
+model Address {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type          AddressType
+  street        String
+  city          String
+  state         String
+  postalCode    String
+  country       String
+  isDefault     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
+}
+
+enum AddressType {
+  SHIPPING
+  BILLING
+}
