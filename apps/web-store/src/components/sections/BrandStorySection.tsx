@@ -25,7 +25,7 @@ export function BrandStorySection({ imageUrl }: BrandStorySectionProps) {
             style={{ backgroundImage: `url("${imageUrl}")` }}
           />
         </div>
-        <div className="absolute -bottom-8 -right-8 bg-white dark:bg-background-dark p-8 rounded-lg shadow-xl max-w-xs border border-gray-100 dark:border-gray-800">
+        <div className="absolute -bottom-8 -right-8 bg-white p-8 rounded-lg shadow-xl max-w-xs border border-gray-100">
           <Sparkles className="w-10 h-10 text-primary mb-4" />
           <p className="text-sm font-medium italic">
             &quot;Quality is not an act, it is a habit. Our pieces are crafted
@@ -40,7 +40,7 @@ export function BrandStorySection({ imageUrl }: BrandStorySectionProps) {
         <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
           Crafting the Future of Conscious Luxury
         </h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed font-light text-lg">
+        <p className="text-gray-600 mb-8 leading-relaxed font-light text-lg">
           Each garment in our Winter collection is the result of painstaking
           research into sustainable fibers and timeless design. We believe in
           fashion that tells a story, curated for the modern individual who

@@ -6,7 +6,7 @@ interface CategoryGridSectionProps {
 
 export function CategoryGridSection({ categories }: CategoryGridSectionProps) {
   return (
-    <section className="px-6 lg:px-20 py-20 bg-white dark:bg-[#1a1c1e]">
+    <section className="px-6 lg:px-20 py-20 bg-white">
       <div className="mb-12 text-center">
         <h2 className="text-3xl font-bold tracking-tight mb-2">
           Shop by Category

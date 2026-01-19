@@ -47,7 +47,7 @@ export function ProductCard({
           <ShoppingCart className="w-5 h-5 text-primary" />
         </button>
       </div>
-      <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 uppercase tracking-wide">
+      <h3 className="text-sm font-medium text-gray-900 uppercase tracking-wide">
         {name}
       </h3>
       <p className="text-sm text-gray-500 font-light">

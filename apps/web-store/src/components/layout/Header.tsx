@@ -22,7 +22,7 @@ export function Header({ cartItemCount = 0, className }: HeaderProps) {
   return (
     <header
       className={cn(
-        'sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-solid border-[#e5e7eb] dark:border-[#374151] px-6 lg:px-20 py-4',
+        'sticky top-0 z-50 bg-white border-b border-solid border-[#e5e7eb] px-6 lg:px-20 py-4',
         className
       )}
     >
@@ -46,7 +46,7 @@ export function Header({ cartItemCount = 0, className }: HeaderProps) {
 
         <div className="flex items-center gap-6">
           {/* Search */}
-          <div className="hidden lg:flex items-center bg-white dark:bg-[#1a1c1e] rounded-full border border-[#e5e7eb] dark:border-[#374151] px-4 py-1.5 focus-within:ring-1 ring-primary/30">
+          <div className="hidden lg:flex items-center bg-white rounded-full border border-[#e5e7eb] px-4 py-1.5 focus-within:ring-1 ring-primary/30">
             <Search className="w-5 h-5 text-gray-400" />
             <input
               className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm w-40 placeholder:text-gray-400 ml-2"

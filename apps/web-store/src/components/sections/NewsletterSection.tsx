@@ -14,7 +14,7 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="px-6 lg:px-20 py-20 bg-background-light dark:bg-background-dark border-t border-gray-200 dark:border-gray-800">
+    <section className="px-6 lg:px-20 py-20 bg-background-light border-t border-gray-200">
       <div className="max-w-3xl mx-auto text-center">
         <h2 className="text-3xl font-bold mb-4 tracking-tight">
           Stay Informed
@@ -31,7 +31,7 @@ export function NewsletterSection() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="flex-1 px-6 py-4 rounded-lg bg-white dark:bg-[#1a1c1e] border-none focus:ring-2 ring-primary/20 text-sm"
+            className="flex-1 px-6 py-4 rounded-lg bg-white border-none focus:ring-2 ring-primary/20 text-sm"
             placeholder="Email Address"
             required
           />

@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="light">
-      <body className="bg-background-light dark:bg-background-dark text-[#131516] dark:text-white transition-colors duration-300">
+      <body className="bg-background-light text-[#131516] transition-colors duration-300">
         <Header cartItemCount={2} />
         <main className="max-w-[1440px] mx-auto overflow-x-hidden">
           {children}
