@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package order;
+
+// Order service definition
+service OrderService {
+  rpc CreateOrder (CreateOrderRequest) returns (OrderResponse);
+  rpc FindOne (FindOneOrderRequest) returns (OrderResponse);
+  rpc FindByUser (FindByUserRequest) returns (OrderListResponse);
+  rpc UpdateStatus (UpdateOrderStatusRequest) returns (OrderResponse);
+  rpc CancelOrder (CancelOrderRequest) returns (OrderResponse);
+}
+
+// Request messages
+message CreateOrderRequest {
+  string user_id = 1;
+  repeated OrderItemInput items = 2;
+  ShippingAddress shipping_address = 3;
+  BillingAddress billing_address = 4;
+  string payment_method = 5;
+}
+
+message FindOneOrderRequest {
+  string id = 1;
+}
+
+message FindByUserRequest {
+  string user_id = 1;
+  int32 page = 2;
+  int32 limit = 3;
+  optional string status = 4;
+}
+
+message UpdateOrderStatusRequest {
+  string id = 1;
+  string status = 2;
+  optional string notes = 3;
+}
+
+message CancelOrderRequest {
+  string id = 1;
+  string reason = 2;
+}
+
+// Response messages
+message OrderResponse {
+  string id = 1;
+  string user_id = 2;
+  string status = 3;
+  repeated OrderItem items = 4;
+  ShippingAddress shipping_address = 5;
+  BillingAddress billing_address = 6;
+  OrderTotals totals = 7;
+  string payment_status = 8;
+  string created_at = 9;
+  string updated_at = 10;
+}
+
+message OrderListResponse {
+  repeated OrderResponse orders = 1;
+  PaginationMeta meta = 2;
+}
+
+// Shared messages
+message OrderItemInput {
+  string product_id = 1;
+  string variant_id = 2;
+  int32 quantity = 3;
+}
+
+message OrderItem {
+  string id = 1;
+  string product_id = 2;
+  string variant_id = 3;
+  string product_name = 4;
+  string variant_sku = 5;
+  int32 quantity = 6;
+  double unit_price = 7;
+  double total_price = 8;
+}
+
+message ShippingAddress {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+  string postal_code = 4;
+  string country = 5;
+  string recipient_name = 6;
+  string phone = 7;
+}
+
+message BillingAddress {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+  string postal_code = 4;
+  string country = 5;
+}
+
+message OrderTotals {
+  double subtotal = 1;
+  double shipping = 2;
+  double tax = 3;
+  double discount = 4;
+  double total = 5;
+}
+
+message PaginationMeta {
+  int32 page = 1;
+  int32 limit = 2;
+  int32 total = 3;
+  int32 total_pages = 4;
+  bool has_next_page = 5;
+  bool has_previous_page = 6;
+}

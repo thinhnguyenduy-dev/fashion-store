@@ -1,0 +1,41 @@
+{
+  "name": "web-store",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/web-store",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/web-store"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "apps/web-store"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "web-store:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "web-store:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "web-store:build:production",
+          "dev": false
+        }
+      }
+    }
+  }
+}

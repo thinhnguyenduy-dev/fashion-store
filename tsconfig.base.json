@@ -1,0 +1,37 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@fashion-store/shared-interceptors": [
+        "libs/shared/interceptors/src/index.ts"
+      ],
+      ".prisma/catalog-client": ["node_modules/.prisma/catalog-client"],
+      "@fashion-store/shared-dto": ["libs/shared/dto/src/index.ts"],
+      "@fashion-store/shared-decorators": [
+        "libs/shared/decorators/src/index.ts"
+      ],
+      "@fashion-store/shared-filters": ["libs/shared/filters/src/index.ts"],
+      "@fashion-store/shared-guards": ["libs/shared/guards/src/index.ts"],
+      "@fashion-store/shared-interfaces": [
+        "libs/shared/interfaces/src/index.ts"
+      ],
+      "@fashion-store/proto": ["libs/proto/src/index.ts"],
+      "@fashion-store/rabbitmq": ["libs/rabbitmq/src/index.ts"],
+      "@fashion-store/prisma-client": ["libs/prisma-client/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

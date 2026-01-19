@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package user;
+
+// User service definition
+service UserService {
+  rpc FindOne (FindOneUserRequest) returns (UserResponse);
+  rpc FindByEmail (FindByEmailRequest) returns (UserResponse);
+  rpc Create (CreateUserRequest) returns (UserResponse);
+  rpc Update (UpdateUserRequest) returns (UserResponse);
+  rpc AddAddress (AddAddressRequest) returns (AddressResponse);
+  rpc UpdateAddress (UpdateAddressRequest) returns (AddressResponse);
+  rpc DeleteAddress (DeleteAddressRequest) returns (DeleteAddressResponse);
+  rpc GetAddresses (GetAddressesRequest) returns (AddressListResponse);
+}
+
+// Request messages
+message FindOneUserRequest {
+  string id = 1;
+}
+
+message FindByEmailRequest {
+  string email = 1;
+}
+
+message CreateUserRequest {
+  string keycloak_id = 1;
+  string email = 2;
+  optional string first_name = 3;
+  optional string last_name = 4;
+  optional string phone = 5;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  optional string first_name = 2;
+  optional string last_name = 3;
+  optional string phone = 4;
+  optional string avatar_url = 5;
+}
+
+message AddAddressRequest {
+  string user_id = 1;
+  string type = 2;  // "SHIPPING" or "BILLING"
+  string street = 3;
+  string city = 4;
+  string state = 5;
+  string postal_code = 6;
+  string country = 7;
+  bool is_default = 8;
+}
+
+message UpdateAddressRequest {
+  string id = 1;
+  string user_id = 2;
+  optional string street = 3;
+  optional string city = 4;
+  optional string state = 5;
+  optional string postal_code = 6;
+  optional string country = 7;
+  optional bool is_default = 8;
+}
+
+message DeleteAddressRequest {
+  string id = 1;
+  string user_id = 2;
+}
+
+message GetAddressesRequest {
+  string user_id = 1;
+  optional string type = 2;
+}
+
+// Response messages
+message UserResponse {
+  string id = 1;
+  string keycloak_id = 2;
+  string email = 3;
+  optional string first_name = 4;
+  optional string last_name = 5;
+  optional string phone = 6;
+  optional string avatar_url = 7;
+  string created_at = 8;
+  string updated_at = 9;
+}
+
+message AddressResponse {
+  string id = 1;
+  string user_id = 2;
+  string type = 3;
+  string street = 4;
+  string city = 5;
+  string state = 6;
+  string postal_code = 7;
+  string country = 8;
+  bool is_default = 9;
+  string created_at = 10;
+  string updated_at = 11;
+}
+
+message AddressListResponse {
+  repeated AddressResponse addresses = 1;
+}
+
+message DeleteAddressResponse {
+  bool success = 1;
+  string message = 2;
+}
