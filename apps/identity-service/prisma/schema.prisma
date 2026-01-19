@@ -16,8 +16,9 @@ datasource db {
 // ============================================
 model User {
   id            String   @id @default(uuid())
-  keycloakId    String   @unique
+  keycloakId    String?  @unique
   email         String   @unique
+  passwordHash  String?  // For local auth (null if using Keycloak/OAuth)
   firstName     String?
   lastName      String?
   phone         String?

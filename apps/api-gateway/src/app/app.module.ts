@@ -25,6 +25,19 @@ import { join } from 'path';
         }),
         inject: [ConfigService],
       },
+      {
+        name: GRPC_SERVICES.AUTH_SERVICE,
+        imports: [ConfigModule],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.GRPC,
+          options: {
+            package: GRPC_PACKAGES.AUTH,
+            protoPath: join(process.cwd(), PROTO_PATHS.AUTH),
+            url: configService.get<string>('IDENTITY_GRPC_URL', 'localhost:50051'),
+          },
+        }),
+        inject: [ConfigService],
+      },
     ]),
   ],
   controllers: [AuthController],
