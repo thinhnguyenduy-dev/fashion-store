@@ -7,8 +7,8 @@ import { useParams } from 'next/navigation';
 
 export default function EditProductPage() {
   const { id } = useParams();
-  const [categories, setCategories] = useState([]);
-  const [product, setProduct] = useState(null);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

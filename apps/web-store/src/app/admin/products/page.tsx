@@ -6,7 +6,7 @@ import { getAdminProducts, deleteProduct } from '@/lib/admin';
 import DataTable from '@/components/admin/DataTable';
 
 export default function AdminProductsPage() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

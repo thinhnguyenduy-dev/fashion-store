@@ -7,8 +7,8 @@ import { useParams } from 'next/navigation';
 
 export default function EditCategoryPage() {
   const { id } = useParams();
-  const [categories, setCategories] = useState([]);
-  const [category, setCategory] = useState(null);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [category, setCategory] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

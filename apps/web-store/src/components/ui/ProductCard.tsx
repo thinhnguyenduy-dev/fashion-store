@@ -51,7 +51,7 @@ export function ProductCard({
         {name}
       </h3>
       <p className="text-sm text-gray-500 font-light">
-        ${price.toFixed(2)}
+        ${(price || 0).toFixed(2)}
       </p>
     </div>
   );

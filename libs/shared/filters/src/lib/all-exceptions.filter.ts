@@ -34,8 +34,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
         message = exceptionResponse;
       } else if (typeof exceptionResponse === 'object') {
         const responseObj = exceptionResponse as Record<string, unknown>;
-        message = (responseObj.message as string) || message;
-        code = (responseObj.code as string) || this.getCodeFromStatus(status);
+        message = (responseObj['message'] as string) || message;
+        code = (responseObj['code'] as string) || this.getCodeFromStatus(status);
       }
     } else if (exception instanceof Error) {
       message = exception.message;
@@ -48,7 +48,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       error: {
         code,
         message,
-        stack: process.env.NODE_ENV === 'development' 
+        stack: process.env['NODE_ENV'] === 'development' 
           ? (exception instanceof Error ? exception.stack : undefined)
           : undefined,
       },

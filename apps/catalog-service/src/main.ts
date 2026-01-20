@@ -18,8 +18,11 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC,
     options: {
-      package: GRPC_PACKAGES.PRODUCT,
-      protoPath: join(process.cwd(), PROTO_PATHS.PRODUCT),
+      package: [GRPC_PACKAGES.PRODUCT, GRPC_PACKAGES.CATEGORY],
+      protoPath: [
+        join(process.cwd(), PROTO_PATHS.PRODUCT),
+        join(process.cwd(), PROTO_PATHS.CATEGORY),
+      ],
       url: `0.0.0.0:${process.env.CATALOG_GRPC_PORT || 50052}`,
     },
   });

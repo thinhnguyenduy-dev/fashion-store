@@ -23,9 +23,9 @@ export class GrpcExceptionFilter implements RpcExceptionFilter<RpcException> {
     } else if (typeof error === 'object') {
       const errorObj = error as Record<string, unknown>;
       grpcError = {
-        code: this.mapHttpToGrpcStatus(errorObj.statusCode as number),
-        message: (errorObj.message as string) || 'Internal error',
-        details: JSON.stringify(errorObj.details || {}),
+        code: this.mapHttpToGrpcStatus(errorObj['statusCode'] as number),
+        message: (errorObj['message'] as string) || 'Internal error',
+        details: JSON.stringify(errorObj['details'] || {}),
       };
     } else {
       grpcError = {

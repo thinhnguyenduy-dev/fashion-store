@@ -5,7 +5,7 @@ import ProductForm from '@/components/admin/ProductForm';
 import { getAdminCategories, createProduct } from '@/lib/admin';
 
 export default function NewProductPage() {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

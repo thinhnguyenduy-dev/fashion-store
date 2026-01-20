@@ -6,7 +6,7 @@ import { getAdminCategories, deleteCategory } from '@/lib/admin';
 import DataTable from '@/components/admin/DataTable';
 
 export default function AdminCategoriesPage() {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

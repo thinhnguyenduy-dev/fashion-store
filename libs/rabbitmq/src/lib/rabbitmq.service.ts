@@ -28,11 +28,11 @@ export class RabbitMQService implements OnModuleInit, OnModuleDestroy {
   private async connect(): Promise<void> {
     try {
       const url = this.configService.get<string>('RABBITMQ_URL', 'amqp://admin:admin123@localhost:5672');
-      this.connection = await amqp.connect(url);
-      this.channel = await this.connection.createChannel();
+      this.connection = await amqp.connect(url) as unknown as amqp.Connection;
+      this.channel = await (this.connection as any).createChannel();
       
-      const prefetchCount = this.configService.get<number>('RABBITMQ_PREFETCH', 10);
-      await this.channel.prefetch(prefetchCount);
+      const prefetchCount = parseInt(this.configService.get<string>('RABBITMQ_PREFETCH', '10'), 10);
+      await this.channel?.prefetch(prefetchCount);
       
       this.logger.log('Connected to RabbitMQ');
 
@@ -154,7 +154,7 @@ export class RabbitMQService implements OnModuleInit, OnModuleDestroy {
   async close(): Promise<void> {
     try {
       await this.channel?.close();
-      await this.connection?.close();
+      await (this.connection as any)?.close();
       this.logger.log('RabbitMQ connection closed');
     } catch (error) {
       this.logger.error('Error closing RabbitMQ connection', error);

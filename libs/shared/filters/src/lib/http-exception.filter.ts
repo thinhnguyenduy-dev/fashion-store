@@ -29,10 +29,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
       message = exceptionResponse;
     } else if (typeof exceptionResponse === 'object') {
       const responseObj = exceptionResponse as Record<string, unknown>;
-      message = Array.isArray(responseObj.message) 
-        ? responseObj.message.join(', ')
-        : (responseObj.message as string) || 'An error occurred';
-      validationErrors = responseObj.message;
+      message = Array.isArray(responseObj['message']) 
+        ? (responseObj['message'] as string[]).join(', ')
+        : (responseObj['message'] as string) || 'An error occurred';
+      validationErrors = responseObj['message'];
     } else {
       message = 'An error occurred';
     }

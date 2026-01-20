@@ -5,7 +5,7 @@ import CategoryForm from '@/components/admin/CategoryForm';
 import { getAdminCategories, createCategory } from '@/lib/admin';
 
 export default function NewCategoryPage() {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

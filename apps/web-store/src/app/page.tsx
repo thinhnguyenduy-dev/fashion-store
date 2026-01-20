@@ -50,7 +50,7 @@ export default async function HomePage() {
       products = data.products.map(p => ({
         id: p.id,
         name: p.name,
-        price: p.base_price,
+        price: p.base_price || p.basePrice || 0,
         imageUrl: p.image_urls?.[0] || 'https://via.placeholder.com/400',
         imageAlt: p.name,
         isNew: true // logic could be based on created_at
