@@ -21,6 +21,7 @@ message FindAllProductsRequest {
   string sort_order = 4;
   optional string category_id = 5;
   optional string search = 6;
+  repeated string tags = 7;
 }
 
 message FindOneProductRequest {

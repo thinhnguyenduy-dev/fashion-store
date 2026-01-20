@@ -4,7 +4,7 @@ import { GRPC_SERVICES } from '@fashion-store/proto';
 import { Observable } from 'rxjs';
 
 interface ProductService {
-  findAll(data: { page: number; limit: number; search?: string; category_id?: string }): Observable<any>;
+  findAll(data: { page: number; limit: number; search?: string; category_id?: string; tags?: string[] }): Observable<any>;
   findOne(data: { id: string }): Observable<any>;
 }
 
@@ -26,8 +26,10 @@ export class ProductsController implements OnModuleInit {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('search') search?: string,
     @Query('category') category_id?: string,
+    @Query('tags') tags?: string | string[],
   ) {
-    return this.productService.findAll({ page, limit, search, category_id });
+    const tagsArray = tags ? (Array.isArray(tags) ? tags : [tags]) : undefined;
+    return this.productService.findAll({ page, limit, search, category_id, tags: tagsArray });
   }
 
   @Get(':id')
