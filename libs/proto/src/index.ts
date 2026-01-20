@@ -8,6 +8,7 @@ export const PROTO_PATHS = {
   INVENTORY: 'libs/proto/src/lib/inventory.proto',
   USER: 'libs/proto/src/lib/user.proto',
   AUTH: 'libs/proto/src/lib/auth.proto',
+  CATEGORY: 'libs/proto/src/lib/category.proto',
 };
 
 // gRPC service package names
@@ -17,6 +18,7 @@ export const GRPC_PACKAGES = {
   INVENTORY: 'inventory',
   USER: 'user',
   AUTH: 'auth',
+  CATEGORY: 'category',
 };
 
 // gRPC service names
@@ -26,4 +28,5 @@ export const GRPC_SERVICES = {
   INVENTORY_SERVICE: 'InventoryService',
   USER_SERVICE: 'UserService',
   AUTH_SERVICE: 'AuthService',
+  CATEGORY_SERVICE: 'CategoryService',
 };

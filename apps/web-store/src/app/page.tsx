@@ -1,61 +1,22 @@
 import {
   HeroSection,
-  NewArrivalsSection,
   CategoryGridSection,
   BrandStorySection,
   NewsletterSection,
 } from '@/components/sections';
+import { NewArrivalsWithCart } from '@/components/sections/NewArrivalsWithCart';
+import { getProducts } from '@/lib/products';
 
-// Product data
-const products = [
-  {
-    id: '1',
-    name: 'Structured Wool Overcoat',
-    price: 850.0,
-    imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDOyHPwuCHJjnxV8UbVwsRv-SLjcmZz3QrfvWEj9pl-7uLhRxzzkVtEAVXgA4fEicF2utATRjCmL8jHUsOkKONd_2mMmjd2nzTp15ruHEwqFVXUuJ2N7gcLrP--vj7Kjn2PxApnPDJcYVQykbkjTTGUIZ_A6cr_8kGXlDjre0pMK2WFPF1IjPxHyph838oIolE1WAvQWTewxGczN_ra1nYxrHNMT7w-y9vOenHPjmmtBn4kC2naHtewEYJsWfEJUQGTbP0xjmsw5oo',
-    imageAlt: 'Minimalist wool overcoat in charcoal grey',
-    isNew: true,
-  },
-  {
-    id: '2',
-    name: 'Silk Luminary Slip Dress',
-    price: 420.0,
-    imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuAPPgyg1udPacz6TvOAJnqhhuQxy2V5orVR1WXSh2O3VWhkN6Mdb_tQ5Je00-qkWi7nsMzoP6aB4eppUWh-4OpKnWmnsQnLgPwdboXEvCRXAieR78XFQDPzDfnHmsTT_7wdChYv38tKIKOg3RywIGROlDZBzszevXuOGECYUL36SghfWW7wB2gzgqJrMZqC_BiaNFURIfOODDvJDSYEXhVUYkI5K4iVC1EV3yxBGg1g5dgr1Uo5eK2cpsNV6AYcAcQvygfsoeyC7UU',
-    imageAlt: 'Premium silk slip dress in cream color',
-    isNew: false,
-  },
-  {
-    id: '3',
-    name: 'Artisan Cashmere Knit',
-    price: 350.0,
-    imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBcbW6ZGHguh-Apz15ZYxMNMl67rkIo3FbyU6JPUSq63SgRHeffrCuvKup2QUdmUWrj7JOsh7zrj-aQ75eKCk5Gs-eKBPphBuh3Tk4BeoOIj5mhQi3GyeEOyZGC22BuTvUFfzsZrgHrej5IAH7DXWw1lWmAxaq6VKLDNSAiUJjAwrkzmPTsuHtPLWQlU1Amk8x7jY8mpDUXTeulJGGhqL5jXlYV9aNQEmrKRTwtt_rAcJpXTtJEzzzCvWjPogNGkGKoTi1d7R0hXtM',
-    imageAlt: 'Soft cashmere knit sweater in sand tone',
-    isNew: false,
-  },
-  {
-    id: '4',
-    name: 'Sculpted Leather Boots',
-    price: 580.0,
-    imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBM7hA35JlMKCPVFsEq6kybwF9FZEH56lHu5UuKfgMBgGSC0zQJTqxqwdT_sKMn8OjZKncQ4SPmSZr1nbjSM7fJP7aCl_YrKNypCUiU_yPW50Q2gbvB_apcksa8o-f9ZjJVbkaOcE_im34nct8JzYXN5dWrsYPPJ8eIMjLZx-oprsCWkSasJ9pGu6GIllIRzBZ7CKXVZbiJFrxF6CkgC0b6kFo_5YATlfN5n9lIBOjhszYY5F40OU71zpB3kMpcWvnD913ChDX7SG8',
-    imageAlt: 'Handcrafted luxury leather Chelsea boots',
-    isNew: false,
-  },
-  {
-    id: '5',
-    name: 'Frame Leather Clutch',
-    price: 310.0,
-    imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCl6nKdzp3j2tvg6lPUV960Yea_8_Wxq5r1A-C2KrwjJuj3qWDzK3EBWNwATETdiO1ZH3HoS121QGxgSbGJLyccyLpblK3l9y0hOumfcnteXDnCThsGEPl2tzQBYUhrLZQUtM0TsZkFDK65ErGn7wd0BPtPkDAtitip9fNu3Yu8-wCUlihM_51S_ioYxp-hJi4kAiB0IeNnShsb4RvpSiTL7to5pDsVn_jayZqSUv3Vst9boN0qV-osrMMAGFzwzsePK3YkhWudJIE',
-    imageAlt: 'Architectural clutch bag in black leather',
-    isNew: false,
-  },
-];
+interface ProductView {
+  id: string;
+  name: string;
+  price: number;
+  imageUrl: string;
+  imageAlt: string;
+  isNew: boolean;
+}
 
-// Category data
+// Static Category data
 const categories = [
   {
     title: 'Women',
@@ -80,7 +41,26 @@ const categories = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  let products: ProductView[] = [];
+  
+  try {
+    const data = await getProducts(1, 5);
+    if (data && data.products) {
+      products = data.products.map(p => ({
+        id: p.id,
+        name: p.name,
+        price: p.base_price,
+        imageUrl: p.image_urls?.[0] || 'https://via.placeholder.com/400',
+        imageAlt: p.name,
+        isNew: true // logic could be based on created_at
+      }));
+    }
+  } catch (error) {
+    console.error('Failed to fetch products for homepage:', error);
+    // Fallback could be handled here or just show empty
+  }
+
   return (
     <>
       <HeroSection
@@ -91,7 +71,7 @@ export default function HomePage() {
         secondaryCta={{ label: 'View Film', href: '/editorial/winter-2024' }}
       />
 
-      <NewArrivalsSection products={products} />
+      <NewArrivalsWithCart products={products} />
 
       <CategoryGridSection categories={categories} />
 

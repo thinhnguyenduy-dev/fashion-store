@@ -2,7 +2,12 @@
   "name": "@fashion-store/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "seed:catalog": "ts-node -P tsconfig.base.json -r tsconfig-paths/register -O '{\"module\":\"commonjs\"}' apps/catalog-service/prisma/seed.ts",
+    "seed:identity": "ts-node -P tsconfig.base.json -r tsconfig-paths/register -O '{\"module\":\"commonjs\"}' apps/identity-service/prisma/seed.ts",
+    "seed:inventory": "ts-node -P tsconfig.base.json -r tsconfig-paths/register -O '{\"module\":\"commonjs\"}' apps/inventory-service/prisma/seed.ts",
+    "seed:all": "npm run seed:catalog && npm run seed:identity && npm run seed:inventory"
+  },
   "private": true,
   "dependencies": {
     "@grpc/grpc-js": "^1.14.3",
@@ -43,6 +48,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
+    "@faker-js/faker": "^10.2.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.0",
     "@next/eslint-plugin-next": "^16.0.1",
@@ -85,6 +91,7 @@
     "prettier": "~3.6.2",
     "ts-jest": "^29.4.0",
     "ts-node": "10.9.1",
+    "tsconfig-paths": "^4.2.0",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.40.0",

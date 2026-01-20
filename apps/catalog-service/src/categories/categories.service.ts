@@ -29,6 +29,19 @@ export class CategoriesService implements OnModuleInit {
     });
   }
 
+  async update(id: string, data: Prisma.CategoryUpdateInput) {
+    return this.prisma.category.update({
+      where: { id },
+      data,
+    });
+  }
+
+  async remove(id: string) {
+    return this.prisma.category.delete({
+      where: { id },
+    });
+  }
+
   private async seedDefaultCategories() {
     const count = await this.prisma.category.count();
     if (count > 0) return;

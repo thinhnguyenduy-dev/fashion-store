@@ -1,10 +1,18 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { PaymentsModule } from '../payments/payments.module';
+import { PaymentPrismaModule } from '../prisma/payment-prisma.module';
+import { RabbitMQModule } from '@fashion-store/rabbitmq';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    RabbitMQModule,
+    PaymentPrismaModule,
+    PaymentsModule,
+  ],
 })
 export class AppModule {}

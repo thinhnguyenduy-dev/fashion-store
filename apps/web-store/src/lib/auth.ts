@@ -1,6 +1,4 @@
-// Auth API client for frontend
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+import { fetchApi } from './api';
 
 export interface LoginCredentials {
   email: string;
@@ -14,89 +12,58 @@ export interface RegisterData {
   lastName?: string;
 }
 
-export interface AuthUser {
-  id: string;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-}
-
 export interface AuthResponse {
-  success: boolean;
   accessToken: string;
-  expiresIn: number;
-  user: AuthUser;
+  user: any;
 }
 
 export async function login(credentials: LoginCredentials): Promise<AuthResponse> {
-  const response = await fetch(`${API_BASE_URL}/auth/login`, {
+  return fetchApi<AuthResponse>('/auth/login', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify(credentials),
   });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Login failed');
-  }
-
-  return response.json();
 }
 
 export async function register(data: RegisterData): Promise<AuthResponse> {
-  const response = await fetch(`${API_BASE_URL}/auth/register`, {
+  const payload = {
+    email: data.email,
+    password: data.password,
+    firstName: data.firstName,
+    lastName: data.lastName,
+    phone: '', // Optional add
+  };
+  
+  // Note: /auth/register in gateway calls identity service which expects snake_case if using raw grpc objects
+  // but Gateway AuthController.register takes body and maps to rpc. 
+  // Let's check api-gateway/auth.controller.ts again.
+  // It expects { email, firstName, lastName, phone ... } (camelCase) based on my implementation block.
+  
+  return fetchApi<AuthResponse>('/auth/register', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
+    body: JSON.stringify(payload),
   });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Registration failed');
-  }
-
-  return response.json();
 }
 
-export async function getProfile(token: string): Promise<AuthUser> {
-  const response = await fetch(`${API_BASE_URL}/auth/me`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to get profile');
-  }
-
-  return response.json();
-}
-
-// Token storage utilities
-export function saveToken(token: string): void {
+export function saveToken(token: string) {
   if (typeof window !== 'undefined') {
     localStorage.setItem('accessToken', token);
   }
 }
 
-export function getToken(): string | null {
-  if (typeof window !== 'undefined') {
+export function getToken() {
+   if (typeof window !== 'undefined') {
     return localStorage.getItem('accessToken');
   }
   return null;
 }
 
-export function removeToken(): void {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem('accessToken');
-  }
+export function isAuthenticated() {
+  return !!getToken();
 }
 
-export function isAuthenticated(): boolean {
-  return !!getToken();
+export function logout() {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('accessToken');
+    window.location.href = '/login';
+  }
 }

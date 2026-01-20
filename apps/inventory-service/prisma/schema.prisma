@@ -1,0 +1,58 @@
+// Prisma Schema for Inventory Service
+// Fashion Store E-commerce Platform
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/.prisma/inventory-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("INVENTORY_DATABASE_URL")
+}
+
+// ============================================
+// Inventory Item Model
+// ============================================
+model InventoryItem {
+  id            String   @id @default(uuid())
+  productId     String
+  variantId     String   @unique
+  sku           String   @unique
+  productName   String
+  
+  quantity      Int      @default(0)
+  reserved      Int      @default(0)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([productId])
+}
+
+// ============================================
+// Stock Reservation Model
+// ============================================
+model StockReservation {
+  id            String   @id @default(uuid())
+  orderId       String
+  variantId     String
+  sku           String
+  quantity      Int
+  
+  status        ReservationStatus @default(PENDING)
+  expiresAt     DateTime
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([sku])
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  RELEASED
+  EXPIRED
+}

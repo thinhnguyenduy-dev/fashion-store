@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package category;
+
+service CategoryService {
+  rpc Create (CreateCategoryRequest) returns (Category) {}
+  rpc FindAll (FindAllCategoriesRequest) returns (CategoryList) {}
+  rpc FindOne (FindOneCategoryRequest) returns (Category) {}
+  rpc Update (UpdateCategoryRequest) returns (Category) {}
+  rpc Delete (DeleteCategoryRequest) returns (DeleteCategoryResponse) {}
+}
+
+message Category {
+  string id = 1;
+  string name = 2;
+  string slug = 3;
+  string description = 4;
+  string image_url = 5;
+  string parent_id = 6;
+  bool is_active = 7;
+  int32 sort_order = 8;
+  string created_at = 9;
+  string updated_at = 10;
+  repeated Category children = 11;
+}
+
+message CreateCategoryRequest {
+  string name = 1;
+  string slug = 2;
+  string description = 3;
+  string image_url = 4;
+  string parent_id = 5;
+  bool is_active = 6;
+  int32 sort_order = 7;
+}
+
+message UpdateCategoryRequest {
+  string id = 1;
+  string name = 2;
+  string slug = 3;
+  string description = 4;
+  string image_url = 5;
+  string parent_id = 6;
+  bool is_active = 7;
+  int32 sort_order = 8;
+}
+
+message FindAllCategoriesRequest {
+  // Can add filters later if needed
+}
+
+message FindOneCategoryRequest {
+  string id = 1;
+}
+
+message DeleteCategoryRequest {
+  string id = 1;
+}
+
+message DeleteCategoryResponse {
+  bool success = 1;
+}
+
+message CategoryList {
+  repeated Category categories = 1;
+}

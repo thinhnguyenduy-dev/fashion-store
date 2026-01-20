@@ -20,6 +20,9 @@
       ],
       ".prisma/catalog-client": ["node_modules/.prisma/catalog-client"],
       ".prisma/identity-client": ["node_modules/.prisma/identity-client"],
+      ".prisma/inventory-client": ["node_modules/.prisma/inventory-client"],
+      ".prisma/order-client": ["node_modules/.prisma/order-client"],
+      ".prisma/payment-client": ["node_modules/.prisma/payment-client"],
       "@fashion-store/shared-dto": ["libs/shared/dto/src/index.ts"],
       "@fashion-store/shared-decorators": [
         "libs/shared/decorators/src/index.ts"

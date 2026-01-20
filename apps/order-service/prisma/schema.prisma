@@ -1,0 +1,121 @@
+// Prisma Schema for Order Service
+// Fashion Store E-commerce Platform
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/.prisma/order-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("ORDER_DATABASE_URL")
+}
+
+// ============================================
+// Order Model
+// ============================================
+model Order {
+  id              String      @id @default(uuid())
+  userId          String
+  status          OrderStatus @default(PENDING)
+  
+  // Pricing
+  subtotal        Decimal     @db.Decimal(10, 2)
+  shippingCost    Decimal     @db.Decimal(10, 2) @default(0)
+  tax             Decimal     @db.Decimal(10, 2) @default(0)
+  discount        Decimal     @db.Decimal(10, 2) @default(0)
+  total           Decimal     @db.Decimal(10, 2)
+  
+  // Payment & Fulfillment
+  paymentId       String?
+  paymentStatus   PaymentStatus @default(PENDING)
+  reservationId   String?
+  
+  // Shipping
+  shippingAddress Json
+  trackingNumber  String?
+  carrier         String?
+  
+  // Notes
+  notes           String?
+  
+  // Relations
+  items           OrderItem[]
+  statusHistory   OrderStatusHistory[]
+  
+  // Timestamps
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  confirmedAt     DateTime?
+  shippedAt       DateTime?
+  deliveredAt     DateTime?
+  cancelledAt     DateTime?
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ============================================
+// Order Item Model
+// ============================================
+model OrderItem {
+  id            String   @id @default(uuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  productId     String
+  variantId     String
+  productName   String
+  sku           String
+  size          String?
+  color         String?
+  
+  quantity      Int
+  unitPrice     Decimal  @db.Decimal(10, 2)
+  totalPrice    Decimal  @db.Decimal(10, 2)
+  
+  createdAt     DateTime @default(now())
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+// ============================================
+// Order Status History Model
+// ============================================
+model OrderStatusHistory {
+  id          String      @id @default(uuid())
+  orderId     String
+  order       Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  fromStatus  OrderStatus?
+  toStatus    OrderStatus
+  reason      String?
+  changedBy   String?     // userId or 'system'
+  
+  createdAt   DateTime    @default(now())
+
+  @@index([orderId])
+}
+
+// ============================================
+// Enums
+// ============================================
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}

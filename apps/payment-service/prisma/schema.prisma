@@ -1,0 +1,50 @@
+// Prisma Schema for Payment Service
+// Fashion Store E-commerce Platform
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/.prisma/payment-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PAYMENT_DATABASE_URL")
+}
+
+// ============================================
+// Payment Model
+// ============================================
+model Payment {
+  id            String        @id @default(uuid())
+  orderId       String        @unique
+  userId        String
+  
+  amount        Decimal       @db.Decimal(10, 2)
+  currency      String        @default("USD")
+  
+  provider      PaymentProvider
+  status        PaymentStatus @default(PENDING)
+  
+  transactionId String?       // ID from Stripe/PayPal
+  errorMessage  String?
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([orderId])
+  @@index([userId])
+}
+
+enum PaymentProvider {
+  STRIPE
+  PAYPAL
+  TEST_PROVIDER
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}

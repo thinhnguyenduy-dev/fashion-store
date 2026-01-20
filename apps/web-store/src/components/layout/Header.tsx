@@ -62,19 +62,21 @@ export function Header({ cartItemCount = 0, className }: HeaderProps) {
                 <User className="w-5 h-5" />
               </Button>
             </Link>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative"
-              aria-label="Cart"
-            >
-              <ShoppingBag className="w-5 h-5" />
-              {cartItemCount > 0 && (
-                <span className="absolute top-1 right-1 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
-                  {cartItemCount}
-                </span>
-              )}
-            </Button>
+            <Link href="/checkout">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative"
+                aria-label="Cart"
+              >
+                <ShoppingBag className="w-5 h-5" />
+                {cartItemCount > 0 && (
+                  <span className="absolute top-1 right-1 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                    {cartItemCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
